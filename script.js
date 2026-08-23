@@ -1,4 +1,6 @@
 // --   Golobal--   
+const MAXCHARS = 150;
+
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const formEl = document.querySelector(".form");
@@ -10,7 +12,7 @@ const submitbtnEl = document.querySelector(".submit-btn");
 const inputhandler = ()=>
 {
     // limit of char
-    const MaxNrChars = 150;
+    const MaxNrChars = MAXCHARS;
     // No of chat that input
     const NrCharsinp = textareaEl.value.length;
     const CharLefts = MaxNrChars - NrCharsinp;
@@ -21,25 +23,34 @@ textareaEl.addEventListener('input',inputhandler);
 
 // --   Form Component  --
 
+const showVisualIndicator = (textCheck)=>
+{
+const className = textCheck === 'valid'? 'form--valid' : 'form--invalid' ;
+    formEl.classList.add(className);
+    setTimeout(() => {
+    formEl.classList.remove(className);
+    }, 2000);
 
+};
 
 const submithandler = (event)=>
 {
 // prevent default browser Action
 event.preventDefault();
 const text = textareaEl.value;
+
 if (text.includes('#') && text.length > 4) {
-        formEl.classList.add("form--valid");
-        setTimeout(() => {
-        formEl.classList.remove("form--valid");
-      }, 2000);
+
+    showVisualIndicator('valid');
+
 } else {
-        formEl.classList.add("form--invalid");
-        setTimeout(() => {
-        formEl.classList.remove("form--invalid");
-      }, 2000);
-      textareaEl.focus();
-      return;
+
+    showVisualIndicator('invalid');
+
+    textareaEl.focus();
+
+    return;
+
       }
     
                  
@@ -67,7 +78,7 @@ if (text.includes('#') && text.length > 4) {
     feedbackListEl.insertAdjacentHTML("beforeend",feedbackItemHTML)
     textareaEl.value = "";
     submitbtnEl.blur();
-    counterEl.textContent = '150';
+    counterEl.textContent = MAXCHARS;
       
 
 };
