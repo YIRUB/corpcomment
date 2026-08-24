@@ -88,7 +88,7 @@ formEl.addEventListener("submit",submithandler );
 
 //  -- Feedback List Component --
 
-fetch('https://bytegrad.comm/course-assets/js/1/api/feedbacks').then(res =>{
+fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks').then(res =>{
     return res.json();
 }
 ).then(data =>
