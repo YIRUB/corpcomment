@@ -1,6 +1,6 @@
 // --   Golobal--   
 const MAXCHARS = 150;
-
+const BASE_API_URL = 'https://bytegrad.com/course-assets/js/1/api';
 const textareaEl = document.querySelector(".form__textarea");
 const counterEl = document.querySelector(".counter");
 const formEl = document.querySelector(".form");
@@ -87,7 +87,22 @@ if (text.includes('#') && text.length > 4) {
         text
         
       }  
-      renderFeedbackItem(feedbackItem);         
+      renderFeedbackItem(feedbackItem);    
+      fetch(`${BASE_API_URL}/feedbacks`,{
+        method : 'POST',
+        body : JSON.stringify(feedbackItem),
+        headers : {
+            Accept : 'application/json',
+            'Content-Type' : 'application/json'
+        }
+      }).then(res=>{
+        if(!res.ok){
+            console.log('there is error')
+        } else{
+            console.log('its sucecss')
+        }
+
+      }).catch(err=>console.log(err));     
     textareaEl.value = "";
     submitbtnEl.blur();
     counterEl.textContent = MAXCHARS;
@@ -99,11 +114,12 @@ formEl.addEventListener("submit",submithandler );
 
 //  -- Feedback List Component --
 
-fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks').then(res =>{
+fetch(`${BASE_API_URL}/feedbacks`).then(res =>{
     return res.json();
 }
 ).then(data =>
 {
+    console.log(data);
     spinnerEl.remove();
     data.feedbacks.forEach(element => {
         renderFeedbackItem(element);
